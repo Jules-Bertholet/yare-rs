@@ -5,6 +5,7 @@
 //! which contains custom build scripts necessary to make `wasm-bindgen` work with Yare.
 //!
 //! ## Usage notes
+//!
 //! The methods and structs this crate provides map pretty directly to what's available in JS.
 //! This means they won't always be idiomatic Rust. For example, [`Deref`]-based inheritance is ued extensively;
 //! this is [an antipattern](https://github.com/rust-unofficial/patterns/blob/master/anti_patterns/deref.md) for idiomatic Rust
