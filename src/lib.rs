@@ -221,12 +221,15 @@ extern "C" {
     #[wasm_bindgen(method)]
     pub fn energize(this: &OperableSpirit, target: Energizable);
 
+    /// Like [`merge`](OperableCircleSpirit::merge), but without type-checks for shape.
     #[wasm_bindgen(method, js_name = "merge")]
     pub fn unchecked_merge(this: &OperableSpirit, target: &Spirit);
 
+    /// Like [`divide`](OperableCircleSpirit::divide), but without type-checks for shape.
     #[wasm_bindgen(method, js_name = "divide")]
     pub fn unchecked_divide(this: &OperableSpirit);
 
+    /// Like [`jump`](OperableSquareSpirit::jump), but without type-checks for shape.
     #[wasm_bindgen(method, js_name = "jump")]
     pub fn unchecked_jump(this: &OperableSquareSpirit, target: &Position);
 
@@ -412,7 +415,7 @@ where
     fn values(&self) -> Vec<T> {
         return Object::values(self)
             .iter()
-            .map(|jsval| T::unchecked_from_js(jsval))
+            .map(|js_value| T::unchecked_from_js(js_value))
             .collect();
     }
 }
@@ -424,7 +427,7 @@ extern "C" {
     #[derive(Clone, Debug)]
     pub type Spirits;
 
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "spirits")]
     static _spirits: Spirits;
 }
 
@@ -445,7 +448,7 @@ extern "C" {
     #[derive(Clone, Debug)]
     pub type Bases;
 
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "bases")]
     static _bases: Bases;
 }
 
@@ -466,7 +469,7 @@ extern "C" {
     #[derive(Clone, Debug)]
     pub type Outposts;
 
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "outposts")]
     static _outposts: Outposts;
 }
 
@@ -487,7 +490,7 @@ extern "C" {
     #[derive(Clone, Debug)]
     pub type Stars;
 
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "stars")]
     static _stars: Stars;
 }
 
@@ -518,7 +521,9 @@ impl<T: Spirited + 'static> Deref for SpiritStatic<T> {
     }
 }
 
-static MY_SPIRITS: SpiritStatic<Vec<Spirit>> = {
+#[allow(bad_style)]
+#[allow(clippy::all)]
+static _my_spirits: SpiritStatic<Vec<Spirit>> = {
     #[inline(always)]
     fn init() -> Vec<Spirit> {
         #[wasm_bindgen]
@@ -549,13 +554,13 @@ static MY_SPIRITS: SpiritStatic<Vec<Spirit>> = {
 /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
 #[inline(always)]
 pub fn my_spirits() -> &'static Vec<Spirit> {
-    return &MY_SPIRITS;
+    return &_my_spirits;
 }
 
 // `base`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "base")]
     static _base: Base;
 }
 
@@ -570,7 +575,7 @@ pub fn base() -> &'static Base {
 // `enemy_base`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "enemy_base")]
     static _enemy_base: Base;
 }
 
@@ -583,7 +588,7 @@ pub fn enemy_base() -> &'static Base {
 }
 
 // `outpost_mdo`
-#[wasm_bindgen]
+#[wasm_bindgen(js_name = "outpost_mdo")]
 extern "C" {
     #[wasm_bindgen]
     static _outpost_mdo: Outpost;
@@ -600,7 +605,7 @@ pub fn outpost_mdo() -> &'static Outpost {
 // `outpost`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "outpost")]
     static _outpost: Outpost;
 }
 
@@ -615,7 +620,7 @@ pub fn outpost() -> &'static Outpost {
 // `star_zxq`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "star_zxq")]
     static _star_zxq: Star;
 }
 
@@ -630,7 +635,7 @@ pub fn star_zxq() -> &'static Star {
 // `star_a1c`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "star_a1c")]
     static _star_a1c: Star;
 }
 
@@ -645,7 +650,7 @@ pub fn star_a1c() -> &'static Star {
 // `star_p89`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "star_p89")]
     static _star_p89: Star;
 }
 
@@ -683,7 +688,7 @@ extern "C" {
     #[wasm_bindgen(method, getter)]
     pub fn p2(this: &Players) -> Player;
 
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "players")]
     static _players: Players;
 }
 
@@ -696,11 +701,13 @@ pub fn players() -> &'static Players {
 // `CODE_VERSION`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen]
+    #[wasm_bindgen(js_name = "CODE_VERSION")]
     static _CODE_VERSION: String;
 }
 
 /// `CODE_VERSION`
+#[allow(bad_style)]
+#[allow(clippy::all)]
 #[inline(always)]
 pub fn CODE_VERSION() -> &'static String {
     return &_CODE_VERSION;
