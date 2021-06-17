@@ -1,0 +1,8 @@
+{
+	"rust-analyzer.diagnostics.disabled": [
+		"missing-unsafe"
+	],
+	"cSpell.words": [
+		"antipattern"
+	]
+}

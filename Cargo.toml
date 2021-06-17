@@ -1,0 +1,22 @@
+[package]
+name = "yare"
+version = "0.1.0"
+authors = ["Jules Bertholet <jules.bertholet@gmail.com>"]
+edition = "2018"
+description = "Rust bindings for Yare.io"
+license = "MIT"
+readme = "README.md"
+keywords = ["yare-io", "yareio", "yare"]
+categories = ["wasm", "games"]
+
+[lib]
+crate-type = ["rlib"]
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
+
+[dependencies]
+wasm-bindgen = "0.2.74"
+js-sys = "0.3.51"
