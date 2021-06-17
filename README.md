@@ -4,7 +4,9 @@ This crate uses [`wasm-bindgen`](https://github.com/rustwasm/wasm-bindgen) to ex
 It's meant to be used with [`yare-rust-template`](https://github.com/Jules-Bertholet/yare-rust-template),
 which contains custom build scripts necessary to make `wasm-bindgen` work with Yare.
 
-This crate is documented with [Rustdoc](https://jules-bertholet.github.io/yare-rust/yare/).
+This crate is documented with [Rustdoc](https://jules-bertholet.github.io/yare-rust-bindings/yare_bindings/).
+
+See also https://github.com/ViliamVadocz/yare-rust for an alternative to this crate.
 
 ## Usage notes
 

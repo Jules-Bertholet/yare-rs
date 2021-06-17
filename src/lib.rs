@@ -4,6 +4,8 @@
 //! It's meant to be used with [`yare-rust-template`](https://github.com/Jules-Bertholet/yare-rust-template),
 //! which contains custom build scripts necessary to make `wasm-bindgen` work with Yare.
 //!
+//! See also https://github.com/ViliamVadocz/yare-rust for an alternative to this crate.
+//!
 //! ## Usage notes
 //!
 //! The methods and structs this crate provides map pretty directly to what's available in JS.
