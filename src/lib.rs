@@ -17,7 +17,7 @@
 //!
 //! For the reasons mentioned in the previous paragraphs, you may want to create you own structs and data structures to store the information you need.
 
-use js_sys::{Array, Float64Array, JsString, Object, Reflect};
+use js_sys::{global, Array, Float64Array, JsString, Object, Reflect};
 use std::{convert::TryFrom, ops::Deref, thread_local};
 use wasm_bindgen::{prelude::*, JsCast};
 
@@ -410,7 +410,10 @@ where
     }
 
     fn values(&self) -> Vec<T> {
-        return Object::values(self).iter().map(|jsval| T::unchecked_from_js(jsval)).collect();
+        return Object::values(self)
+            .iter()
+            .map(|jsval| T::unchecked_from_js(jsval))
+            .collect();
     }
 }
 
@@ -499,17 +502,6 @@ pub fn stars() -> &'static Stars {
 }
 
 // `my_spirits`
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen]
-    static __my_spirits: Vec<EntityID>;
-}
-
-#[inline(always)]
-fn _my_spirits() -> &'static Vec<EntityID> {
-    return &__my_spirits;
-}
-
 // See JsStatic implementation
 struct SpiritStatic<T: 'static> {
     pub __inner: &'static std::thread::LocalKey<T>,
@@ -517,7 +509,7 @@ struct SpiritStatic<T: 'static> {
 
 trait Spirited {}
 
-impl Spirited for Vec<&'static Spirit> {}
+impl Spirited for Vec<Spirit> {}
 
 impl<T: Spirited + 'static> Deref for SpiritStatic<T> {
     type Target = T;
@@ -526,16 +518,28 @@ impl<T: Spirited + 'static> Deref for SpiritStatic<T> {
     }
 }
 
-static MY_SPIRITS: SpiritStatic<Vec<&'static Spirit>> = {
+static MY_SPIRITS: SpiritStatic<Vec<Spirit>> = {
     #[inline(always)]
-    fn init() -> Vec<&'static Spirit> {
-        return _my_spirits()
-            .into_iter()
-            .map(|jsval| Spirit::unchecked_from_js_ref(jsval))
+    fn init() -> Vec<Spirit> {
+        #[wasm_bindgen]
+        extern "C" {
+            #[wasm_bindgen]
+            #[derive(Clone, Debug)]
+            type GlobalThis;
+
+            #[wasm_bindgen(method, getter)]
+            fn my_spirits(this: &GlobalThis) -> Vec<JsValue>;
+        }
+
+        return global()
+            .unchecked_into::<GlobalThis>()
+            .my_spirits()
+            .drain(..)
+            .map(|js_value| Spirit::unchecked_from_js(js_value))
             .collect();
     }
     thread_local!(
-        static _VAL: Vec<&'static Spirit> = init();
+        static _VAL: Vec<Spirit> = init();
     );
     SpiritStatic { __inner: &_VAL }
 };
@@ -544,7 +548,7 @@ static MY_SPIRITS: SpiritStatic<Vec<&'static Spirit>> = {
 ///
 /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
 #[inline(always)]
-pub fn my_spirits() -> &'static Vec<&'static Spirit> {
+pub fn my_spirits() -> &'static Vec<Spirit> {
     return &MY_SPIRITS;
 }
 
