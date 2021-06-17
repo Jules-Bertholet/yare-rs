@@ -52,10 +52,10 @@ pub enum InoperableReason {
     NoHP,
 }
 
-pub enum OperableSpiritShape {
-    Circle(OperableCircleSpirit),
-    Square(OperableSquareSpirit),
-    Triangle(OperableTriangleSpirit),
+pub enum OperableSpiritShape<'a> {
+    Circle(&'a OperableCircleSpirit),
+    Square(&'a OperableSquareSpirit),
+    Triangle(&'a OperableTriangleSpirit),
 }
 
 /// The possible [`structure_type`](Structure::structure_type)s.
@@ -261,12 +261,28 @@ impl TryFrom<Spirit> for OperableSpirit {
     }
 }
 
-impl From<OperableSpirit> for OperableSpiritShape {
-    fn from(s: OperableSpirit) -> OperableSpiritShape {
+impl<'a> TryFrom<&'a Spirit> for &'a OperableSpirit {
+    type Error = InoperableReason;
+
+    fn try_from(s: &'a Spirit) -> Result<Self, Self::Error> {
+        if &s.player_id() == this_player_id() {
+            if s.hp() as isize == 1 {
+                return Ok(s.unchecked_ref());
+            } else {
+                return Err(InoperableReason::NoHP);
+            }
+        } else {
+            return Err(InoperableReason::Hostile);
+        }
+    }
+}
+
+impl<'a> From<&'a OperableSpirit> for OperableSpiritShape<'a> {
+    fn from(s: &'a OperableSpirit) -> OperableSpiritShape {
         return match s.shape() {
-            Shape::Circles => OperableSpiritShape::Circle(s.unchecked_into()),
-            Shape::Squares => OperableSpiritShape::Square(s.unchecked_into()),
-            Shape::Triangles => OperableSpiritShape::Triangle(s.unchecked_into()),
+            Shape::Circles => OperableSpiritShape::Circle(s.unchecked_ref()),
+            Shape::Squares => OperableSpiritShape::Square(s.unchecked_ref()),
+            Shape::Triangles => OperableSpiritShape::Triangle(s.unchecked_ref()),
             _ => unreachable!("Unknown spirit type!"),
         };
     }
