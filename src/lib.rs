@@ -19,6 +19,14 @@
 //! So be careful, and only retrieve the information you need.
 //!
 //! For the reasons mentioned in the previous paragraphs, you may want to create you own structs and data structures to store the information you need.
+//! 
+//! ## `RenderService` bindings
+//!
+//! This crate optionally provides bindings for [`yare-code-sync`](https://github.com/arikwex/yare-code-sync)'s `RenderService`,
+//! under the [`render_service`] module. You will need to enable the crate's `RenderService` feature to use these bindings.
+
+#[cfg(feature = "RenderService")]
+pub mod render_service;
 
 use js_sys::{global, Array, Float64Array, JsString, Object, Reflect};
 use std::{convert::TryFrom, ops::Deref, thread_local};
@@ -49,7 +57,7 @@ pub enum Shape {
 
 /// The reason for which a spirit is inoperable.
 /// If `Hostile`, then the spirit does not belong to you.
-/// Otherwise, if `NoHP`, then the spirit has [`hp`](Spirit::hp) of 0 (dead or merged).
+/// Otherwise, if `NoHP`, then the spirit has [`hp`](Destructible::hp) of 0 (dead or merged).
 pub enum InoperableReason {
     Hostile,
     NoHP,

@@ -11,7 +11,7 @@ See also https://github.com/ViliamVadocz/yare-rust for an alternative to this cr
 ## Usage notes
 
 The methods and structs this crate provides map pretty directly to what's available in JS.
-This means they won't always be idiomatic Rust. For example, [`Deref`]-based inheritance is ued extensively;
+This means they won't always be idiomatic Rust. For example, `Deref`-based inheritance is ued extensively;
 this is [an antipattern](https://github.com/rust-unofficial/patterns/blob/master/anti_patterns/deref.md) for idiomatic Rust
 but it's also the best/only way to represent JS inheritance hierarchies, and it's what `wasm-bindgen` uses.
 
@@ -21,3 +21,7 @@ Generally, any method in this crate that returns a value involves such a transfe
 So be careful, and only retrieve the information you need.
 
 For the reasons mentioned in the previous paragraphs, you may want to create you own structs and data structures to store the information you need.
+
+## `RenderService` bindings
+
+This crate optionally provides bindings for [`yare-code-sync`](https://github.com/arikwex/yare-code-sync)'s `RenderService`, under the `render_service` module. You will need to enable the crate's `RenderService` feature to use these bindings.
