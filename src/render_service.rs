@@ -6,7 +6,7 @@ use crate::Position;
 
 #[wasm_bindgen]
 extern "C" {
-	#[wasm_bindgen(module = "yare-code-sync/client/RenderService", js_namespace=RenderService)]
+	#[wasm_bindgen(module = "node-modules/yare-code-sync/client/RenderService", js_namespace=RenderService)]
 	pub fn circle(pos: &Position, radius: f64, color: &str);
 
 	#[wasm_bindgen(module = "yare-code-sync/client/RenderService", js_namespace=RenderService, js_name = "circle")]
