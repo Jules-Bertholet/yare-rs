@@ -19,14 +19,9 @@
 //! So be careful, and only retrieve the information you need.
 //!
 //! For the reasons mentioned in the previous paragraphs, you may want to create you own structs and data structures to store the information you need.
-//! 
-//! ## `RenderService` bindings
-//!
-//! This crate optionally provides bindings for [`yare-code-sync`](https://github.com/arikwex/yare-code-sync)'s `RenderService`,
-//! under the [`render_service`] module. You will need to enable the crate's `RenderService` feature to use these bindings.
 
-#[cfg(feature = "RenderService")]
-pub mod render_service;
+//#[cfg(feature = "RenderService")]
+//pub mod render_service;
 
 use js_sys::{global, Array, Float64Array, JsString, Object, Reflect};
 use std::{convert::TryFrom, ops::Deref, thread_local};
@@ -265,12 +260,12 @@ impl TryFrom<Spirit> for OperableSpirit {
     fn try_from(s: Spirit) -> Result<Self, Self::Error> {
         if &s.player_id() == this_player_id() {
             if s.hp() as isize == 1 {
-                return Ok(s.unchecked_into());
+                Ok(s.unchecked_into())
             } else {
-                return Err(InoperableReason::NoHP);
+                Err(InoperableReason::NoHP)
             }
         } else {
-            return Err(InoperableReason::Hostile);
+            Err(InoperableReason::Hostile)
         }
     }
 }
@@ -283,10 +278,10 @@ impl<'a> TryFrom<&'a Spirit> for &'a OperableSpirit {
             if s.hp() as isize == 1 {
                 return Ok(s.unchecked_ref());
             } else {
-                return Err(InoperableReason::NoHP);
+                Err(InoperableReason::NoHP)
             }
         } else {
-            return Err(InoperableReason::Hostile);
+            Err(InoperableReason::Hostile)
         }
     }
 }
@@ -420,13 +415,13 @@ where
     }
 
     fn ids(&self) -> Vec<EntityID> {
-        return Object::keys(self).to_vec();
+        Object::keys(self).to_vec()
     }
 
     fn values(&self) -> Vec<T> {
         return Object::values(self)
             .iter()
-            .map(|js_value| T::unchecked_from_js(js_value))
+            .map(T::unchecked_from_js)
             .collect();
     }
 }
@@ -449,7 +444,7 @@ impl GetByID<Spirit> for Spirits {}
 /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
 #[inline(always)]
 pub fn spirits() -> &'static Spirits {
-    return &_spirits;
+    &_spirits
 }
 
 // `bases`
@@ -470,7 +465,7 @@ impl GetByID<Base> for Bases {}
 /// [Yare Documentation](https://yare.io/documentation#doc_base)
 #[inline(always)]
 pub fn bases() -> &'static Bases {
-    return &_bases;
+    &_bases
 }
 
 // `outposts`
@@ -491,7 +486,7 @@ impl GetByID<Outpost> for Outposts {}
 /// [Yare Documentation](https://yare.io/documentation#doc_outpost)
 #[inline(always)]
 pub fn outposts() -> &'static Outposts {
-    return &_outposts;
+    &_outposts
 }
 
 // `stars`
@@ -512,7 +507,7 @@ impl GetByID<Star> for Stars {}
 /// [Yare Documentation](https://yare.io/documentation#doc_star)
 #[inline(always)]
 pub fn stars() -> &'static Stars {
-    return &_stars;
+    &_stars
 }
 
 // `my_spirits`
@@ -565,7 +560,7 @@ static _my_spirits: SpiritStatic<Vec<Spirit>> = {
 /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
 #[inline(always)]
 pub fn my_spirits() -> &'static Vec<Spirit> {
-    return &_my_spirits;
+    &_my_spirits
 }
 
 // `base`
@@ -580,7 +575,7 @@ extern "C" {
 /// [Yare Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn base() -> &'static Base {
-    return &_base;
+    &_base
 }
 
 // `enemy_base`
@@ -595,7 +590,7 @@ extern "C" {
 /// [Yare Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn enemy_base() -> &'static Base {
-    return &_enemy_base;
+    &_enemy_base
 }
 
 // `outpost_mdo`
@@ -610,7 +605,7 @@ extern "C" {
 /// [Yare Documentation](https://yare.io/documentation#doc_outpost)
 #[inline(always)]
 pub fn outpost_mdo() -> &'static Outpost {
-    return &_outpost_mdo;
+    &_outpost_mdo
 }
 
 // `outpost`
@@ -625,7 +620,7 @@ extern "C" {
 /// [Yare Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn outpost() -> &'static Outpost {
-    return &_outpost;
+    &_outpost
 }
 
 // `star_zxq`
@@ -640,7 +635,7 @@ extern "C" {
 /// [Yare Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn star_zxq() -> &'static Star {
-    return &_star_zxq;
+    &_star_zxq
 }
 
 // `star_a1c`
@@ -655,7 +650,7 @@ extern "C" {
 /// [Yare Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn star_a1c() -> &'static Star {
-    return &_star_a1c;
+    &_star_a1c
 }
 
 // `star_p89`
@@ -670,7 +665,7 @@ extern "C" {
 /// [Yare Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn star_p89() -> &'static Star {
-    return &_star_p89;
+    &_star_p89
 }
 
 // `this_player_id`
@@ -683,7 +678,7 @@ extern "C" {
 /// `this_player_id` (your player ID).
 #[inline(always)]
 pub fn this_player_id() -> &'static Player {
-    return &_this_player_id;
+    &_this_player_id
 }
 
 // `players`
@@ -706,7 +701,40 @@ extern "C" {
 /// `players`. [`p1`](Players::p1) is the top-left player, [`p2`](Players::p2) is the bottom-right player.
 #[inline(always)]
 pub fn players() -> &'static Players {
-    return &_players;
+    &_players
+}
+
+// `tick`
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_name = "tick")]
+    static _tick: u32;
+}
+
+/// `tick` (the number of ticks since the start of the game).
+#[inline(always)]
+pub fn tick() -> &'static u32 {
+    &_tick
+}
+
+// `ticks`
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(extends = Object)]
+    #[derive(Clone, Debug)]
+    pub type Ticks;
+
+    #[wasm_bindgen(method, getter)]
+    pub fn now(this: &Ticks) -> u32;
+
+    #[wasm_bindgen(js_name = "ticks")]
+    static _ticks: Ticks;
+}
+
+/// `ticks` (the `now` property of this object stores the number of ticks since the start of the game).
+#[inline(always)]
+pub fn ticks() -> &'static Ticks {
+    &_ticks
 }
 
 // `CODE_VERSION`
