@@ -337,6 +337,9 @@ extern "C" {
     #[wasm_bindgen(extends = Spirit)]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OperableTriangleSpirit;
+
+    #[wasm_bindgen(method)]
+    pub fn explode(this: &OperableTriangleSpirit);
 }
 
 // Structure
@@ -735,6 +738,73 @@ extern "C" {
 #[inline(always)]
 pub fn ticks() -> &'static Ticks {
     &_ticks
+}
+
+// `graphics`
+/// Module for Yare's built-in graphics methods.
+pub mod graphics {
+    use crate::Position;
+    use js_sys::Object;
+    use wasm_bindgen::prelude::*;
+
+    #[wasm_bindgen]
+    extern "C" {
+        #[wasm_bindgen(extends = Object)]
+        #[derive(Clone, Debug)]
+        type Graphics;
+
+        #[wasm_bindgen(method, getter)]
+        fn style(this: &Graphics) -> String;
+
+        #[wasm_bindgen(method, setter)]
+        fn set_style(this: &Graphics, style: &str);
+
+        #[wasm_bindgen(method, getter)]
+        fn linewidth(this: &Graphics) -> f64;
+
+        #[wasm_bindgen(method, setter)]
+        fn set_linewidth(this: &Graphics, linewidth: f64);
+
+        #[wasm_bindgen(method)]
+        fn line(this: &Graphics, pos: &Position, end: &Position);
+
+        #[wasm_bindgen(method)]
+        fn circle(this: &Graphics, pos: &Position, r: f64);
+
+        #[wasm_bindgen(method)]
+        fn square(this: &Graphics, tl: &Position, br: &Position);
+
+        #[wasm_bindgen]
+        static graphics: Graphics;
+    }
+
+    pub fn style() -> String {
+        graphics.style()
+    }
+
+    pub fn set_style(style: &str) {
+        graphics.set_style(style);
+    }
+
+    pub fn linewidth() -> f64 {
+        graphics.linewidth()
+    }
+
+    pub fn set_linewidth(linewidth: f64) {
+        graphics.set_linewidth(linewidth);
+    }
+
+    pub fn line(pos: &Position, end: &Position) {
+        graphics.line(pos, end);
+    }
+
+    pub fn circle(pos: &Position, r: f64) {
+        graphics.circle(pos, r);
+    }
+
+    pub fn square(tl: &Position, br: &Position) {
+        graphics.square(tl, br);
+    }
 }
 
 // `CODE_VERSION`
