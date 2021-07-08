@@ -726,26 +726,6 @@ pub fn tick() -> &'static u32 {
     &_tick
 }
 
-// `ticks`
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(extends = Object)]
-    #[derive(Clone, Debug)]
-    pub type Ticks;
-
-    #[wasm_bindgen(method, getter)]
-    pub fn now(this: &Ticks) -> u32;
-
-    #[wasm_bindgen(js_name = "ticks")]
-    static _ticks: Ticks;
-}
-
-/// `ticks` (the `now` property of this object stores the number of ticks since the start of the game).
-#[inline(always)]
-pub fn ticks() -> &'static Ticks {
-    &_ticks
-}
-
 // `graphics`
 /// Module for Yare's built-in graphics methods.
 pub mod graphics {
@@ -760,27 +740,35 @@ pub mod graphics {
         type Graphics;
 
         #[wasm_bindgen(method, getter)]
+        #[inline(always)]
         fn style(this: &Graphics) -> String;
 
         #[wasm_bindgen(method, setter)]
+        #[inline(always)]
         fn set_style(this: &Graphics, style: &str);
 
         #[wasm_bindgen(method, getter)]
+        #[inline(always)]
         fn linewidth(this: &Graphics) -> f64;
 
         #[wasm_bindgen(method, setter)]
+        #[inline(always)]
         fn set_linewidth(this: &Graphics, linewidth: f64);
 
         #[wasm_bindgen(method)]
+        #[inline(always)]
         fn line(this: &Graphics, pos: &Position, end: &Position);
 
         #[wasm_bindgen(method)]
+        #[inline(always)]
         fn circle(this: &Graphics, pos: &Position, r: f64);
 
         #[wasm_bindgen(method)]
+        #[inline(always)]
         fn square(this: &Graphics, tl: &Position, br: &Position);
 
         #[wasm_bindgen]
+        #[inline(always)]
         static graphics: Graphics;
     }
 
