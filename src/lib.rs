@@ -399,6 +399,12 @@ extern "C" {
     #[wasm_bindgen(extends = Structure)]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Star;
+
+    #[wasm_bindgen(method, getter)]
+    pub fn active_in(this: &Star) -> u32;
+
+    #[wasm_bindgen(method, getter)]
+    pub fn active_at(this: &Star) -> u32;
 }
 
 // GetById
