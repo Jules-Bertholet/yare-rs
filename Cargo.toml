@@ -1,5 +1,5 @@
 [package]
-name = "yare_sys"
+name = "yare-sys"
 version = "0.1.0"
 authors = ["Jules Bertholet <jules.bertholet@gmail.com>"]
 edition = "2018"
