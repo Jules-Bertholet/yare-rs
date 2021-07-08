@@ -435,6 +435,20 @@ where
     }
 }
 
+// See JsStatic implementation
+struct YareStatic<T: 'static> {
+    pub __inner: &'static std::thread::LocalKey<T>,
+}
+
+trait YareStaticed {}
+
+impl<T: YareStaticed + 'static> Deref for YareStatic<T> {
+    type Target = T;
+    fn deref(&self) -> &T {
+        unsafe { self.__inner.with(|ptr| &*(ptr as *const T)) }
+    }
+}
+
 // `spirits`
 #[wasm_bindgen]
 extern "C" {
@@ -520,25 +534,11 @@ pub fn stars() -> &'static Stars {
 }
 
 // `my_spirits`
-// See JsStatic implementation
-struct SpiritStatic<T: 'static> {
-    pub __inner: &'static std::thread::LocalKey<T>,
-}
-
-trait Spirited {}
-
-impl Spirited for Vec<Spirit> {}
-
-impl<T: Spirited + 'static> Deref for SpiritStatic<T> {
-    type Target = T;
-    fn deref(&self) -> &T {
-        unsafe { self.__inner.with(|ptr| &*(ptr as *const T)) }
-    }
-}
+impl YareStaticed for Vec<Spirit> {}
 
 #[allow(bad_style)]
 #[allow(clippy::all)]
-static _my_spirits: SpiritStatic<Vec<Spirit>> = {
+static _my_spirits: YareStatic<Vec<Spirit>> = {
     #[inline(always)]
     fn init() -> Vec<Spirit> {
         #[wasm_bindgen]
@@ -561,7 +561,7 @@ static _my_spirits: SpiritStatic<Vec<Spirit>> = {
     thread_local!(
         static _VAL: Vec<Spirit> = init();
     );
-    SpiritStatic { __inner: &_VAL }
+    YareStatic { __inner: &_VAL }
 };
 
 /// `my_spirits`, as a [`Vec`].
@@ -814,4 +814,28 @@ extern "C" {
 #[inline(always)]
 pub fn CODE_VERSION() -> &'static String {
     return &_CODE_VERSION;
+}
+
+
+// `no_entity`
+impl YareStaticed for EntityID {}
+
+#[allow(bad_style)]
+#[allow(clippy::all)]
+static _NULl_ENTITY_ID: YareStatic<EntityID> = {
+    #[inline(always)]
+    fn init() -> EntityID {
+        return "".into();
+    }
+    thread_local!(
+        static _VAL: EntityID = init();
+    );
+    YareStatic { __inner: &_VAL }
+};
+
+/// Represents the EntityID for when there is no entity.
+/// Just an empty JS string.
+#[inline(always)]
+pub fn no_entity() -> &'static EntityID {
+    &_NULl_ENTITY_ID
 }
