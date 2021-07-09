@@ -740,62 +740,61 @@ pub mod graphics {
         type Graphics;
 
         #[wasm_bindgen(method, getter)]
-        #[inline(always)]
         fn style(this: &Graphics) -> String;
 
         #[wasm_bindgen(method, setter)]
-        #[inline(always)]
         fn set_style(this: &Graphics, style: &str);
 
         #[wasm_bindgen(method, getter)]
-        #[inline(always)]
         fn linewidth(this: &Graphics) -> f64;
 
         #[wasm_bindgen(method, setter)]
-        #[inline(always)]
         fn set_linewidth(this: &Graphics, linewidth: f64);
 
         #[wasm_bindgen(method)]
-        #[inline(always)]
         fn line(this: &Graphics, pos: &Position, end: &Position);
 
         #[wasm_bindgen(method)]
-        #[inline(always)]
         fn circle(this: &Graphics, pos: &Position, r: f64);
 
         #[wasm_bindgen(method)]
-        #[inline(always)]
         fn square(this: &Graphics, tl: &Position, br: &Position);
 
         #[wasm_bindgen]
-        #[inline(always)]
         static graphics: Graphics;
     }
 
+    #[inline(always)]
     pub fn style() -> String {
         graphics.style()
     }
 
+    #[inline(always)]
     pub fn set_style(style: &str) {
         graphics.set_style(style);
     }
 
+    #[inline(always)]
     pub fn linewidth() -> f64 {
         graphics.linewidth()
     }
 
+    #[inline(always)]
     pub fn set_linewidth(linewidth: f64) {
         graphics.set_linewidth(linewidth);
     }
 
+    #[inline(always)]
     pub fn line(pos: &Position, end: &Position) {
         graphics.line(pos, end);
     }
 
+    #[inline(always)]
     pub fn circle(pos: &Position, r: f64) {
         graphics.circle(pos, r);
     }
 
+    #[inline(always)]
     pub fn square(tl: &Position, br: &Position) {
         graphics.square(tl, br);
     }
