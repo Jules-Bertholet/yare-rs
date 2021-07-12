@@ -6,6 +6,8 @@ which contains custom build scripts necessary to make `wasm-bindgen` work with Y
 
 This crate is documented with [Rustdoc](https://jules-bertholet.github.io/yare-rust-bindings/yare_bindings/).
 
+This crate is compatible with TypeScript, but you will need to use the TypeScript types from [`yare-typescript-typings`](https://github.com/Jules-Bertholet/yare-typescript-typings).
+
 See also https://github.com/ViliamVadocz/yare-rust for an alternative to this crate.
 
 ## Usage notes

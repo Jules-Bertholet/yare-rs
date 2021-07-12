@@ -43,7 +43,7 @@ pub enum HP {
 }
 
 /// The possible values of a spirit or base's [`shape`](Destructible::shape) property.
-#[wasm_bindgen]
+#[wasm_bindgen(typescript_type = "Shape")]
 pub enum Shape {
     Circles = "circles",
     Squares = "squares",
@@ -67,23 +67,23 @@ pub enum OperableSpiritShape<'a> {
 /// The possible [`structure_type`](Structure::structure_type)s.
 ///
 /// [Yare Documentation](https://yare.io/documentation)
-#[wasm_bindgen]
+#[wasm_bindgen(typescript_type = "StructureType")]
 pub enum StructureType {
     Base = "base",
     Outpost = "outpost",
     Star = "star",
 }
 
-// Player
+// PlayerID
 #[wasm_bindgen]
 extern "C" {
-    /// A player, as reported by the [`player_id`](Destructible::player_id) properties of spirits or bases,
+    /// A player ID, as reported by the [`player_id`](Destructible::player_id) properties of spirits or bases,
     /// the [`control`](Outpost::control) property of the outpost, [`this_player_id`], or the property vales of [`players`].
     ///
     /// [Yare Documentation](https://yare.io/documentation)
-    #[wasm_bindgen(extends = JsString)]
+    #[wasm_bindgen(extends = JsString, typescript_type = "PlayerID")]
     #[derive(Clone, Debug, PartialEq, Eq)]
-    pub type Player;
+    pub type PlayerID;
 }
 
 // OutpostSight
@@ -92,7 +92,7 @@ extern "C" {
     /// The [`sight`](Outpost::sight) of an outpost.
     ///
     /// [Yare Documentation](https://yare.io/documentation#doc_outpost)
-    #[wasm_bindgen(extends = Object)]
+    #[wasm_bindgen(extends = Object, typescript_type = "OutpostSight")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OutpostSight;
 
@@ -106,7 +106,7 @@ extern "C" {
     /// The [`sight`](Destructible::sight) of a spirit or base.
     ///
     /// [Yare Documentation](https://yare.io/documentation)
-    #[wasm_bindgen(extends = OutpostSight)]
+    #[wasm_bindgen(extends = OutpostSight, typescript_type = "Sight")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Sight;
 
@@ -129,7 +129,7 @@ extern "C" {
     /// Any object on the game board: can be a [`Spirit`], [`Base`], [`Outpost`], or [`Star`].
     ///
     /// [Yare Documentation](https://yare.io/documentation)
-    #[wasm_bindgen(extends = Object)]
+    #[wasm_bindgen(extends = Object, typescript_type = "Entity")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Entity;
 
@@ -140,37 +140,25 @@ extern "C" {
     pub fn position(this: &Entity) -> Box<Position>;
 
     #[wasm_bindgen(method, getter)]
-    pub fn size(this: &Energizable) -> u16;
+    pub fn size(this: &Entity) -> u16;
 
     #[wasm_bindgen(method, getter)]
-    pub fn energy(this: &Energizable) -> u16;
+    pub fn energy(this: &Entity) -> u16;
 
     #[wasm_bindgen(method, getter)]
     pub fn last_energized(this: &Entity) -> EntityID;
-}
-
-// Energizable
-#[wasm_bindgen]
-extern "C" {
-    /// Any [`Entity`] that is a valid target for an [`energize`](OperableSpirit::energize): can be a [`Spirit`], [`Base`], or [`Outpost`].
-    ///
-    /// [Yare Documentation](https://yare.io/documentation)
-    #[wasm_bindgen(extends = Entity)]
-    #[derive(Clone, Debug, PartialEq, Eq)]
-    pub type Energizable;
 
     #[wasm_bindgen(method, getter)]
-    pub fn energy_capacity(this: &Energizable) -> u16;
+    pub fn energy_capacity(this: &Entity) -> u16;
 }
 
 // Destructible
 #[wasm_bindgen]
 extern "C" {
-
     /// Any [`Entity`] that can be destroyed: can be a [`Spirit`] or [`Base`].
     ///
     /// [Yare Documentation](https://yare.io/documentation)
-    #[wasm_bindgen(extends = Energizable)]
+    #[wasm_bindgen(extends = Entity, typescript_type = "Destructible")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Destructible;
 
@@ -181,7 +169,7 @@ extern "C" {
     pub fn sight(this: &Destructible) -> Sight;
 
     #[wasm_bindgen(method, getter)]
-    pub fn player_id(this: &Destructible) -> Player;
+    pub fn player_id(this: &Destructible) -> PlayerID;
 
     #[wasm_bindgen(method, getter)]
     pub fn shape(this: &Destructible) -> Shape;
@@ -196,7 +184,7 @@ extern "C" {
     /// A spirit.
     ///
     /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
-    #[wasm_bindgen(extends = Destructible)]
+    #[wasm_bindgen(extends = Destructible, typescript_type = "Spirit")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Spirit;
 
@@ -217,7 +205,7 @@ extern "C" {
     /// A spirit is "operable" if and only if it belongs to you, and it has an [`hp`](Destructible::hp) of 1.
     ///
     /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
-    #[wasm_bindgen(extends = Spirit)]
+    #[wasm_bindgen(extends = Spirit, typescript_type = "Spirit")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OperableSpirit;
 
@@ -225,7 +213,7 @@ extern "C" {
     pub fn r#move(this: &OperableSpirit, target: Array);
 
     #[wasm_bindgen(method)]
-    pub fn energize(this: &OperableSpirit, target: Energizable);
+    pub fn energize(this: &OperableSpirit, target: Entity);
 
     /// Like [`merge`](OperableCircleSpirit::merge), but without type-checks for shape.
     #[wasm_bindgen(method, js_name = "merge")]
@@ -303,7 +291,7 @@ extern "C" {
     /// An [`OperableSpirit`] that is a circle. Can merge or divide.
     ///
     /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
-    #[wasm_bindgen(extends = OperableSpirit)]
+    #[wasm_bindgen(extends = OperableSpirit, typescript_type = "CircleSpirit")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OperableCircleSpirit;
 
@@ -320,7 +308,7 @@ extern "C" {
     /// An [`OperableSpirit`] that is a square. Can jump.
     ///
     /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
-    #[wasm_bindgen(extends = OperableSpirit)]
+    #[wasm_bindgen(extends = OperableSpirit, typescript_type = "SquareSpirit")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OperableSquareSpirit;
 
@@ -334,7 +322,7 @@ extern "C" {
     /// An [`OperableSpirit`] that is a triangle.
     ///
     /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
-    #[wasm_bindgen(extends = Spirit)]
+    #[wasm_bindgen(extends = Spirit, typescript_type = "TriangleSpirit")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OperableTriangleSpirit;
 
@@ -348,7 +336,7 @@ extern "C" {
     /// A structure, i.e. anything with a [`structure_type`](Structure::structure_type): can be a [`Base`], [`Outpost`], or [`Star`].
     ///
     /// [Yare Documentation](https://yare.io/documentation)
-    #[wasm_bindgen(extends = Entity)]
+    #[wasm_bindgen(extends = Entity, typescript_type = "Structure")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Structure;
 
@@ -362,7 +350,7 @@ extern "C" {
     /// A player base.
     ///
     /// [Yare Documentation](https://yare.io/documentation#doc_base)
-    #[wasm_bindgen(extends = Structure, extends = Destructible)]
+    #[wasm_bindgen(extends = Structure, extends = Destructible, typescript_type = "Base")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Base;
 
@@ -376,7 +364,7 @@ extern "C" {
     /// An outpost.
     ///
     /// [Yare Documentation](https://yare.io/documentation#doc_outpost)
-    #[wasm_bindgen(extends = Structure, extends = Energizable)]
+    #[wasm_bindgen(extends = Structure, typescript_type = "Outpost")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Outpost;
 
@@ -387,7 +375,7 @@ extern "C" {
     pub fn sight(this: &Outpost) -> OutpostSight;
 
     #[wasm_bindgen(method, getter)]
-    pub fn control(this: &Outpost) -> Player;
+    pub fn control(this: &Outpost) -> PlayerID;
 }
 
 // Star
@@ -396,7 +384,7 @@ extern "C" {
     /// A star.
     ///
     /// [Yare Documentation](https://yare.io/documentation#doc_star)
-    #[wasm_bindgen(extends = Structure)]
+    #[wasm_bindgen(extends = Structure, typescript_type = "Star")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Star;
 
@@ -452,7 +440,7 @@ impl<T: YareStaticed + 'static> Deref for YareStatic<T> {
 // `spirits`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(extends = Object)]
+    #[wasm_bindgen(extends = Object, typescript_type = "(typeof spirits)")]
     #[derive(Clone, Debug)]
     pub type Spirits;
 
@@ -473,7 +461,7 @@ pub fn spirits() -> &'static Spirits {
 // `bases`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(extends = Object)]
+    #[wasm_bindgen(extends = Object, typescript_type = "(typeof bases)")]
     #[derive(Clone, Debug)]
     pub type Bases;
 
@@ -494,7 +482,7 @@ pub fn bases() -> &'static Bases {
 // `outposts`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(extends = Object)]
+    #[wasm_bindgen(extends = Object, typescript_type = "(typeof outposts)")]
     #[derive(Clone, Debug)]
     pub type Outposts;
 
@@ -515,7 +503,7 @@ pub fn outposts() -> &'static Outposts {
 // `stars`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(extends = Object)]
+    #[wasm_bindgen(extends = Object, typescript_type = "(typeof stars)")]
     #[derive(Clone, Debug)]
     pub type Stars;
 
@@ -681,27 +669,27 @@ pub fn star_p89() -> &'static Star {
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_name = "this_player_id")]
-    static _this_player_id: Player;
+    static _this_player_id: PlayerID;
 }
 
 /// `this_player_id` (your player ID).
 #[inline(always)]
-pub fn this_player_id() -> &'static Player {
+pub fn this_player_id() -> &'static PlayerID {
     &_this_player_id
 }
 
 // `players`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(extends = Object)]
+    #[wasm_bindgen(extends = Object, typescript_type = "(typeof players)")]
     #[derive(Clone, Debug)]
     pub type Players;
 
     #[wasm_bindgen(method, getter)]
-    pub fn p1(this: &Players) -> Player;
+    pub fn p1(this: &Players) -> PlayerID;
 
     #[wasm_bindgen(method, getter)]
-    pub fn p2(this: &Players) -> Player;
+    pub fn p2(this: &Players) -> PlayerID;
 
     #[wasm_bindgen(js_name = "players")]
     static _players: Players;
@@ -735,7 +723,7 @@ pub mod graphics {
 
     #[wasm_bindgen]
     extern "C" {
-        #[wasm_bindgen(extends = Object)]
+        #[wasm_bindgen(extends = Object, typescript_type = "Graphics")]
         #[derive(Clone, Debug)]
         type Graphics;
 
@@ -814,7 +802,6 @@ extern "C" {
 pub fn CODE_VERSION() -> &'static String {
     return &_CODE_VERSION;
 }
-
 
 // `no_entity`
 impl YareStaticed for EntityID {}
