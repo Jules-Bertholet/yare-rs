@@ -33,15 +33,6 @@ pub type EntityID = JsValue;
 /// A position on the game board. Ordered pair of [`f64`].
 pub type Position = [f64];
 
-/// The [`hp`](Destructible::hp) of a destructible entity.
-///
-/// [Yare Documentation](https://yare.io/documentation)
-#[wasm_bindgen]
-pub enum HP {
-    Inoperable = 0,
-    Operable = 1,
-}
-
 /// The possible values of a spirit or base's [`shape`](Destructible::shape) property.
 #[wasm_bindgen(typescript_type = "Shape")]
 pub enum Shape {
@@ -140,16 +131,16 @@ extern "C" {
     pub fn position(this: &Entity) -> Box<Position>;
 
     #[wasm_bindgen(method, getter)]
-    pub fn size(this: &Entity) -> u16;
+    pub fn size(this: &Entity) -> u32;
 
     #[wasm_bindgen(method, getter)]
-    pub fn energy(this: &Entity) -> u16;
+    pub fn energy(this: &Entity) -> i32;
 
     #[wasm_bindgen(method, getter)]
     pub fn last_energized(this: &Entity) -> EntityID;
 
     #[wasm_bindgen(method, getter)]
-    pub fn energy_capacity(this: &Entity) -> u16;
+    pub fn energy_capacity(this: &Entity) -> i32;
 }
 
 // Destructible
@@ -163,7 +154,7 @@ extern "C" {
     pub type Destructible;
 
     #[wasm_bindgen(method, getter)]
-    pub fn hp(this: &Destructible) -> HP;
+    pub fn hp(this: &Destructible) -> u32;
 
     #[wasm_bindgen(method, getter)]
     pub fn sight(this: &Destructible) -> Sight;
@@ -192,7 +183,7 @@ extern "C" {
     pub fn merged(this: &Spirit) -> Array;
 
     #[wasm_bindgen(method, getter)]
-    pub fn move_speed(this: &Spirit) -> u16;
+    pub fn move_speed(this: &Spirit) -> u32;
 
     #[wasm_bindgen(method, getter)]
     pub fn mark(this: &Spirit) -> String;
@@ -247,7 +238,7 @@ impl TryFrom<Spirit> for OperableSpirit {
 
     fn try_from(s: Spirit) -> Result<Self, Self::Error> {
         if &s.player_id() == this_player_id() {
-            if s.hp() as isize == 1 {
+            if s.hp() > 0 {
                 Ok(s.unchecked_into())
             } else {
                 Err(InoperableReason::NoHP)
@@ -263,7 +254,7 @@ impl<'a> TryFrom<&'a Spirit> for &'a OperableSpirit {
 
     fn try_from(s: &'a Spirit) -> Result<Self, Self::Error> {
         if &s.player_id() == this_player_id() {
-            if s.hp() as isize == 1 {
+            if s.hp() as isize >= 1 {
                 return Ok(s.unchecked_ref());
             } else {
                 Err(InoperableReason::NoHP)
@@ -355,7 +346,7 @@ extern "C" {
     pub type Base;
 
     #[wasm_bindgen(method, getter)]
-    pub fn current_spirit_cost(this: &Base) -> u16;
+    pub fn current_spirit_cost(this: &Base) -> u32;
 }
 
 // Outpost
@@ -369,7 +360,7 @@ extern "C" {
     pub type Outpost;
 
     #[wasm_bindgen(method, getter)]
-    pub fn range(this: &Outpost) -> u16;
+    pub fn range(this: &Outpost) -> u32;
 
     #[wasm_bindgen(method, getter)]
     pub fn sight(this: &Outpost) -> OutpostSight;
