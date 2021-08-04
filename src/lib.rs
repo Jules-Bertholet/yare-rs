@@ -715,7 +715,7 @@ pub mod graphics {
         pub fn circle(pos: &Position, r: f64);
 
         #[wasm_bindgen(js_namespace = graphics)]
-        pub fn square(tl: &Position, br: &Position);
+        pub fn rect(tl: &Position, br: &Position);
     }
 }
 
