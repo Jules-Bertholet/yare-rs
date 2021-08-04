@@ -57,7 +57,7 @@ pub enum OperableSpiritShape<'a> {
 
 /// The possible [`structure_type`](Structure::structure_type)s.
 ///
-/// [Yare Documentation](https://yare.io/documentation)
+/// [Yare.io Documentation](https://yare.io/documentation)
 #[wasm_bindgen(typescript_type = "StructureType")]
 pub enum StructureType {
     Base = "base",
@@ -71,7 +71,7 @@ extern "C" {
     /// A player ID, as reported by the [`player_id`](Destructible::player_id) properties of spirits or bases,
     /// the [`control`](Outpost::control) property of the outpost, [`this_player_id`], or the property vales of [`players`].
     ///
-    /// [Yare Documentation](https://yare.io/documentation)
+    /// [Yare.io Documentation](https://yare.io/documentation)
     #[wasm_bindgen(extends = JsString, typescript_type = "PlayerID")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type PlayerID;
@@ -82,7 +82,7 @@ extern "C" {
 extern "C" {
     /// The [`sight`](Outpost::sight) of an outpost.
     ///
-    /// [Yare Documentation](https://yare.io/documentation#doc_outpost)
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_outpost)
     #[wasm_bindgen(extends = Object, typescript_type = "OutpostSight")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OutpostSight;
@@ -96,7 +96,7 @@ extern "C" {
 extern "C" {
     /// The [`sight`](Destructible::sight) of a spirit or base.
     ///
-    /// [Yare Documentation](https://yare.io/documentation)
+    /// [Yare.io Documentation](https://yare.io/documentation)
     #[wasm_bindgen(extends = OutpostSight, typescript_type = "Sight")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Sight;
@@ -119,7 +119,7 @@ extern "C" {
 extern "C" {
     /// Any object on the game board: can be a [`Spirit`], [`Base`], [`Outpost`], or [`Star`].
     ///
-    /// [Yare Documentation](https://yare.io/documentation)
+    /// [Yare.io Documentation](https://yare.io/documentation)
     #[wasm_bindgen(extends = Object, typescript_type = "Entity")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Entity;
@@ -148,7 +148,7 @@ extern "C" {
 extern "C" {
     /// Any [`Entity`] that can be destroyed: can be a [`Spirit`] or [`Base`].
     ///
-    /// [Yare Documentation](https://yare.io/documentation)
+    /// [Yare.io Documentation](https://yare.io/documentation)
     #[wasm_bindgen(extends = Entity, typescript_type = "Destructible")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Destructible;
@@ -174,7 +174,7 @@ extern "C" {
 extern "C" {
     /// A spirit.
     ///
-    /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
     #[wasm_bindgen(extends = Destructible, typescript_type = "Spirit")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Spirit;
@@ -195,7 +195,7 @@ extern "C" {
     /// A [`Spirit`] that is "operable", meaning that you can call methods on it.
     /// A spirit is "operable" if and only if it belongs to you, and it has an [`hp`](Destructible::hp) of 1.
     ///
-    /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
     #[wasm_bindgen(extends = Spirit, typescript_type = "Spirit")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OperableSpirit;
@@ -281,7 +281,7 @@ impl<'a> From<&'a OperableSpirit> for OperableSpiritShape<'a> {
 extern "C" {
     /// An [`OperableSpirit`] that is a circle. Can merge or divide.
     ///
-    /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
     #[wasm_bindgen(extends = OperableSpirit, typescript_type = "CircleSpirit")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OperableCircleSpirit;
@@ -298,7 +298,7 @@ extern "C" {
 extern "C" {
     /// An [`OperableSpirit`] that is a square. Can jump.
     ///
-    /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
     #[wasm_bindgen(extends = OperableSpirit, typescript_type = "SquareSpirit")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OperableSquareSpirit;
@@ -312,7 +312,7 @@ extern "C" {
 extern "C" {
     /// An [`OperableSpirit`] that is a triangle.
     ///
-    /// [Yare Documentation](https://yare.io/documentation#doc_spirit)
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
     #[wasm_bindgen(extends = Spirit, typescript_type = "TriangleSpirit")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type OperableTriangleSpirit;
@@ -326,7 +326,7 @@ extern "C" {
 extern "C" {
     /// A structure, i.e. anything with a [`structure_type`](Structure::structure_type): can be a [`Base`], [`Outpost`], or [`Star`].
     ///
-    /// [Yare Documentation](https://yare.io/documentation)
+    /// [Yare.io Documentation](https://yare.io/documentation)
     #[wasm_bindgen(extends = Entity, typescript_type = "Structure")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Structure;
@@ -343,7 +343,7 @@ extern "C" {
 extern "C" {
     /// A player base.
     ///
-    /// [Yare Documentation](https://yare.io/documentation#doc_base)
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_base)
     #[wasm_bindgen(extends = Structure, extends = Destructible, typescript_type = "Base")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Base;
@@ -357,7 +357,7 @@ extern "C" {
 extern "C" {
     /// An outpost.
     ///
-    /// [Yare Documentation](https://yare.io/documentation#doc_outpost)
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_outpost)
     #[wasm_bindgen(extends = Structure, typescript_type = "Outpost")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Outpost;
@@ -377,7 +377,7 @@ extern "C" {
 extern "C" {
     /// A star.
     ///
-    /// [Yare Documentation](https://yare.io/documentation#doc_star)
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_star)
     #[wasm_bindgen(extends = Structure, typescript_type = "Star")]
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub type Star;
@@ -446,7 +446,7 @@ impl GetByID<Spirit> for Spirits {}
 
 /// `spirits`. Use the [`GetByID`] trait to retrieve individual spirits.
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_spirit)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
 #[inline(always)]
 pub fn spirits() -> &'static Spirits {
     &_spirits
@@ -467,7 +467,7 @@ impl GetByID<Base> for Bases {}
 
 /// `bases`. Use the [`GetByID`] trait to retrieve individual bases.
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_base)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_base)
 #[inline(always)]
 pub fn bases() -> &'static Bases {
     &_bases
@@ -488,7 +488,7 @@ impl GetByID<Outpost> for Outposts {}
 
 /// `outposts`. Use the [`GetByID`] trait to retrieve individual outposts.
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_outpost)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_outpost)
 #[inline(always)]
 pub fn outposts() -> &'static Outposts {
     &_outposts
@@ -509,7 +509,7 @@ impl GetByID<Star> for Stars {}
 
 /// `stars`. Use the [`GetByID`] trait to retrieve individual stars.
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_star)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_star)
 #[inline(always)]
 pub fn stars() -> &'static Stars {
     &_stars
@@ -548,7 +548,7 @@ static _my_spirits: YareStatic<Vec<Spirit>> = {
 
 /// `my_spirits`, as a [`Vec`].
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_spirit)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
 #[inline(always)]
 pub fn my_spirits() -> &'static Vec<Spirit> {
     &_my_spirits
@@ -563,7 +563,7 @@ extern "C" {
 
 /// `base` (your base).
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_intro)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn base() -> &'static Base {
     &_base
@@ -578,7 +578,7 @@ extern "C" {
 
 /// `enemy_base` (the enemy base).
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_intro)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn enemy_base() -> &'static Base {
     &_enemy_base
@@ -593,7 +593,7 @@ extern "C" {
 
 /// `outpost_mdo`
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_outpost)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_outpost)
 #[inline(always)]
 pub fn outpost_mdo() -> &'static Outpost {
     &_outpost_mdo
@@ -608,7 +608,7 @@ extern "C" {
 
 /// `outpost` (the outpost).
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_intro)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn outpost() -> &'static Outpost {
     &_outpost
@@ -623,7 +623,7 @@ extern "C" {
 
 /// `star_zxq` ([player 1](Players::p1)'s star).
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_intro)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn star_zxq() -> &'static Star {
     &_star_zxq
@@ -638,7 +638,7 @@ extern "C" {
 
 /// `star_a1c` ([player 2](Players::p2)'s star).
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_intro)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn star_a1c() -> &'static Star {
     &_star_a1c
@@ -653,7 +653,7 @@ extern "C" {
 
 /// `star_p89` (the outpost's star).
 ///
-/// [Yare Documentation](https://yare.io/documentation#doc_intro)
+/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
 #[inline(always)]
 pub fn star_p89() -> &'static Star {
     &_star_p89
