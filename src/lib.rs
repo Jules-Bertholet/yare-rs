@@ -1,24 +1,4 @@
-//! # Rust bindings for [Yare.io](https://yare.io/) bots
-//!
-//! This crate uses [`wasm-bindgen`](https://github.com/rustwasm/wasm-bindgen) to expose the objects available to [Yare.io](https://yare.io/) bots to Rust.
-//! It's meant to be used with [`yare-rust-template`](https://github.com/Jules-Bertholet/yare-rust-template),
-//! which contains custom build scripts necessary to make `wasm-bindgen` work with Yare.
-//!
-//! See also https://github.com/ViliamVadocz/yare-rust for an alternative to this crate.
-//!
-//! ## Usage notes
-//!
-//! The methods and structs this crate provides map pretty directly to what's available in JS.
-//! This means they won't always be idiomatic Rust. For example, [`Deref`]-based inheritance is ued extensively;
-//! this is [an antipattern](https://github.com/rust-unofficial/patterns/blob/master/anti_patterns/deref.md) for idiomatic Rust
-//! but it's also the best/only way to represent JS inheritance hierarchies, and it's what `wasm-bindgen` uses.
-//!
-//! Passing values between WebAssembly and JS is slow, especially when those values aren't numbers.
-//! Generally, any method in this crate that returns a value involves such a transfer of data
-//! (functions that return static references don't).
-//! So be careful, and only retrieve the information you need.
-//!
-//! For the reasons mentioned in the previous paragraphs, you may want to create you own structs and data structures to store the information you need.
+#![doc = include_str!("../README.md")]
 
 //#[cfg(feature = "RenderService")]
 //pub mod render_service;
@@ -399,7 +379,7 @@ where
     Self: Deref<Target = Object>,
 {
     fn get(&self, id: &EntityID) -> Option<T> {
-        return match Reflect::get(self.as_ref(), &id) {
+        return match Reflect::get(self.as_ref(), id) {
             Ok(js_value) => Some(js_value.unchecked_into()),
             Err(_) => None,
         };
@@ -712,73 +692,50 @@ pub fn tick() -> &'static u32 {
 /// Module for Yare's built-in graphics methods.
 pub mod graphics {
     use crate::Position;
-    use js_sys::Object;
     use wasm_bindgen::prelude::*;
 
     #[wasm_bindgen]
     extern "C" {
-        #[wasm_bindgen(extends = Object, typescript_type = "Graphics")]
-        #[derive(Clone, Debug)]
-        type Graphics;
+        #[wasm_bindgen(js_namespace = graphics, getter)]
+        pub fn style() -> String;
 
-        #[wasm_bindgen(method, getter)]
-        fn style(this: &Graphics) -> String;
+        #[wasm_bindgen(js_namespace = graphics, setter)]
+        pub fn set_style(style: &str);
 
-        #[wasm_bindgen(method, setter)]
-        fn set_style(this: &Graphics, style: &str);
+        #[wasm_bindgen(js_namespace = graphics, getter)]
+        pub fn linewidth() -> f64;
 
-        #[wasm_bindgen(method, getter)]
-        fn linewidth(this: &Graphics) -> f64;
+        #[wasm_bindgen(js_namespace = graphics, setter)]
+        pub fn set_linewidth(linewidth: f64);
 
-        #[wasm_bindgen(method, setter)]
-        fn set_linewidth(this: &Graphics, linewidth: f64);
+        #[wasm_bindgen(js_namespace = graphics)]
+        pub fn line(pos: &Position, end: &Position);
 
-        #[wasm_bindgen(method)]
-        fn line(this: &Graphics, pos: &Position, end: &Position);
+        #[wasm_bindgen(js_namespace = graphics)]
+        pub fn circle(pos: &Position, r: f64);
 
-        #[wasm_bindgen(method)]
-        fn circle(this: &Graphics, pos: &Position, r: f64);
+        #[wasm_bindgen(js_namespace = graphics)]
+        pub fn square(tl: &Position, br: &Position);
+    }
+}
 
-        #[wasm_bindgen(method)]
-        fn square(this: &Graphics, tl: &Position, br: &Position);
+/// `console.log`
+pub mod console {
+    use wasm_bindgen::prelude::*;
 
-        #[wasm_bindgen]
-        static graphics: Graphics;
+    #[wasm_bindgen]
+    extern "C" {
+        /// `console.log`
+        #[wasm_bindgen(js_name = "log", js_namespace = console, variadic)]
+        pub fn log(args: Box<[JsValue]>);
     }
 
-    #[inline(always)]
-    pub fn style() -> String {
-        graphics.style()
-    }
-
-    #[inline(always)]
-    pub fn set_style(style: &str) {
-        graphics.set_style(style);
-    }
-
-    #[inline(always)]
-    pub fn linewidth() -> f64 {
-        graphics.linewidth()
-    }
-
-    #[inline(always)]
-    pub fn set_linewidth(linewidth: f64) {
-        graphics.set_linewidth(linewidth);
-    }
-
-    #[inline(always)]
-    pub fn line(pos: &Position, end: &Position) {
-        graphics.line(pos, end);
-    }
-
-    #[inline(always)]
-    pub fn circle(pos: &Position, r: f64) {
-        graphics.circle(pos, r);
-    }
-
-    #[inline(always)]
-    pub fn square(tl: &Position, br: &Position) {
-        graphics.square(tl, br);
+    /// Calls `console.log()`
+    #[macro_export]
+    macro_rules! log {
+        ($($arg:expr),+) => {
+            $crate::console::log(::std::boxed::Box::from([$(JsValue::from($arg),)+]));
+        }
     }
 }
 

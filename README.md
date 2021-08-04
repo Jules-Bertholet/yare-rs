@@ -1,14 +1,14 @@
 # Rust bindings for [Yare.io](https://yare.io/) bots
 
 This crate uses [`wasm-bindgen`](https://github.com/rustwasm/wasm-bindgen) to expose the objects available to [Yare.io](https://yare.io/) bots to Rust.
-It's meant to be used with [`yare-rust-template`](https://github.com/Jules-Bertholet/yare-rust-template),
+It's meant to be used with [`yareio-rust-template`](https://github.com/Jules-Bertholet/yareio-rust-template),
 which contains custom build scripts necessary to make `wasm-bindgen` work with Yare.
 
-This crate is documented with [Rustdoc](https://jules-bertholet.github.io/yare-rust-bindings/yare_bindings/).
+This crate is documented with [Rustdoc](https://jules-bertholet.github.io/yareio-rs/yareio_sys/).
 
-This crate is compatible with TypeScript, but you will need to use the TypeScript types from [`yare-typescript-typings`](https://github.com/Jules-Bertholet/yare-typescript-typings).
+This crate is compatible with TypeScript, but you will need to use the TypeScript types from [`yareio-typescript-typings`](https://github.com/Jules-Bertholet/yareio-typescript-typings).
 
-See also https://github.com/ViliamVadocz/yare-rust for an alternative to this crate.
+See also [yare-rust](https://github.com/ViliamVadocz/yare-rust) for an alternative to this crate.
 
 ## Usage notes
 
