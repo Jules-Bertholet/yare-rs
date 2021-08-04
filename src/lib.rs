@@ -1,7 +1,7 @@
 #![doc = include_str!("../README.md")]
 
-//#[cfg(feature = "RenderService")]
-//pub mod render_service;
+#[cfg(feature = "RenderService")]
+pub mod render_service;
 
 use js_sys::{global, Array, Float64Array, JsString, Object, Reflect};
 use std::{convert::TryFrom, ops::Deref, thread_local};
