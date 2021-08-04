@@ -333,6 +333,9 @@ extern "C" {
 
     #[wasm_bindgen(method, getter)]
     pub fn structure_type(this: &Structure) -> StructureType;
+
+    #[wasm_bindgen(method, getter)]
+    pub fn collision_radius(this: &Structure) -> f64;
 }
 
 // Base
