@@ -72,9 +72,12 @@ pub mod prelude {
     pub use crate::structure::outpost::{outpost_mdo, outposts, Outpost};
     pub use crate::structure::star::{star_a1c, star_p89, star_zxq, stars, Star};
     pub use crate::{
-        tick, Destructible, Entity, EntityID, EnumerateByID, GetByID, OutpostSight, Position,
-        Shape, Sight, TryGetByID,
+        console, graphics, log, tick, Destructible, Entity, EntityID, EnumerateByID, GetByID,
+        OutpostSight, Position, Shape, Sight, TryGetByID,
     };
+
+    #[cfg(feature = "RenderService")]
+    pub use crate::render_service;
 }
 
 pub(crate) trait CanFrom<S: JsCast>: JsCast {
@@ -297,7 +300,10 @@ where
 {
     /// Returns the value for this key.
     fn get(&self, id: &ID) -> V {
-        Reflect::get(self.as_ref(), id.as_ref()).ok().map(JsCast::unchecked_into).unwrap()
+        Reflect::get(self.as_ref(), id.as_ref())
+            .ok()
+            .map(JsCast::unchecked_into)
+            .unwrap()
     }
 }
 
@@ -311,7 +317,9 @@ where
 {
     /// Returns the value for this key.
     fn get(&self, id: &ID) -> Option<V> {
-        Reflect::get(self.as_ref(), id.as_ref()).ok().map(JsCast::unchecked_into)
+        Reflect::get(self.as_ref(), id.as_ref())
+            .ok()
+            .map(JsCast::unchecked_into)
     }
 }
 
