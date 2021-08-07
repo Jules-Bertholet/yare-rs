@@ -12,7 +12,7 @@ extern "C" {
 /// Calls `console.log()` with the given comma-separated list of `Into<JsValue>` arguments.
 #[macro_export]
 macro_rules! log {
-        ($($arg:expr),+) => {
-            $crate::console::log(::std::boxed::Box::from([$(JsValue::from($arg),)+]));
-        }
+    ($($arg:expr),+) => {
+        $crate::console::log(::std::boxed::Box::from([$(JsValue::from($arg),)+]));
     }
+}
