@@ -471,7 +471,7 @@ pub fn spirits() -> &'static Spirits {
 // `my_spirits`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(method, getter)]
+    #[wasm_bindgen(method, getter, js_name = "my_spirits")]
     static _my_spirits: Vec<FriendlySpirit>;
 }
 
