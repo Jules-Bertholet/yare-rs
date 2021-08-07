@@ -1,5 +1,7 @@
 # Rust bindings for [Yare.io](https://yare.io/) bots
 
+[![crates.io](https://img.shields.io/crates/v/yareio-sys?style=flat-square)](https://crates.io/crates/yareio-sys) [![docs.rs](https://img.shields.io/docsrs/yareio-sys?color=blue&style=flat-square)](https://github.com/Jules-Bertholet/yareio-rs)
+
 This crate uses [`wasm-bindgen`](https://github.com/rustwasm/wasm-bindgen) to expose the objects available to
 [Yare.io](https://yare.io/) bots to Rust.
 It's meant to be used with [`yareio-rust-template`](https://github.com/Jules-Bertholet/yareio-rust-template),

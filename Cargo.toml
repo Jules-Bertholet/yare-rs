@@ -1,13 +1,14 @@
 [package]
 name = "yareio-sys"
-version = "0.1.0"
+version = "0.9.0"
 authors = ["Jules Bertholet <jules.bertholet@gmail.com>"]
 edition = "2018"
 description = "Rust bindings for Yare.io"
 readme = "README.md"
-repository = "https://github.com/Jules-Bertholet/yareio-rust-bindings"
+repository = "https://github.com/Jules-Bertholet/yareio-rs"
+documentation = "https://docs.rs/yareio-sys/0.9.0/yareio_sys/"
 license = "MIT"
-keywords = ["yare.io", "yareio"]
+keywords = ["yareio"]
 categories = ["wasm", "games"]
 
 [lib]
