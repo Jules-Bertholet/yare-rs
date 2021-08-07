@@ -1,5 +1,6 @@
-/// Provides access to properties of the `memory` object.
-/// Consider replacing with bindings that fit your own usage.
+///!Provides access to properties of the `memory` object.
+///! Consider replacing with bindings that fit your own usage.
+
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]

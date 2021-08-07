@@ -1,3 +1,5 @@
+//! Bindings relating to player IDs.
+
 use js_sys::{JsString, Object};
 use wasm_bindgen::prelude::*;
 
