@@ -350,6 +350,7 @@ pub trait EnumerateByID<ID: JsCast, V: JsCast>: GetByID<ID, V> {
     }
 }
 
+/// Iterator returned by [`EnumerateByID`]'s methods.
 pub struct ArrayTypedIter<T: JsCast> {
     range: std::ops::Range<u32>,
     array: Array,
