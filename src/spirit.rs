@@ -222,10 +222,10 @@ extern "C" {
     pub type OperableSpiritID;
 
     #[wasm_bindgen(method, js_name = "move")]
-    fn r#move(this: &OperableSpirit, target: Array);
+    fn r#move(this: &OperableSpirit, target: &Array);
 
     #[wasm_bindgen(method)]
-    pub fn energize(this: &OperableSpirit, target: Entity);
+    pub fn energize(this: &OperableSpirit, target: &Entity);
 
     /// Requires the `"circles"` crate feature
     #[cfg(feature = "circles")]
@@ -262,7 +262,7 @@ impl OperableSpirit {
     pub fn move_to_pos(&self, pos: &Position) {
         let float_arr = Float64Array::new_with_length(2);
         float_arr.copy_from(pos);
-        self.r#move(Array::from(float_arr.as_ref()));
+        self.r#move(&Array::from(float_arr.as_ref()));
     }
 }
 
