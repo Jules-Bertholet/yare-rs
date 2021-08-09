@@ -56,7 +56,7 @@ pub mod star;
 #[cfg(feature = "RenderService")]
 pub mod render_service;
 
-use js_sys::{Array, JsString, Object, Reflect};
+use js_sys::{Array, Float64Array, JsString, Object, Reflect};
 use players::PlayerID;
 use spirit::{DeadSpirit, LivingEnemySpiritID, OperableSpiritID};
 use std::{convert::TryFrom, fmt::Debug, marker::PhantomData, ops::Deref};
@@ -86,7 +86,93 @@ pub(crate) trait CanFrom<S: JsCast>: JsCast {
 }
 
 /// A position on the game board. Ordered pair of [`f64`].
-pub type Position = [f64];
+pub struct Position(f64, f64);
+
+impl From<Position> for Vec<f64> {
+    #[inline]
+    fn from(pos: Position) -> Self {
+        vec![pos.0, pos.1]
+    }
+}
+
+impl From<Vec<f64>> for Position {
+    #[inline]
+    fn from(vec: Vec<f64>) -> Self {
+        Position(vec[0], vec[1])
+    }
+}
+
+impl From<Position> for (f64, f64) {
+    #[inline]
+    fn from(pos: Position) -> Self {
+        (pos.0, pos.1)
+    }
+}
+
+impl From<(f64, f64)> for Position {
+    #[inline]
+    fn from(tuple: (f64, f64)) -> Self {
+        Position(tuple.0, tuple.1)
+    }
+}
+
+impl From<Position> for [f64; 2] {
+    #[inline]
+    fn from(pos: Position) -> Self {
+        [pos.0, pos.1]
+    }
+}
+
+impl From<[f64; 2]> for Position {
+    #[inline]
+    fn from(array: [f64; 2]) -> Self {
+        Position(array[0], array[1])
+    }
+}
+
+impl From<Position> for Array {
+    #[inline]
+    fn from(pos: Position) -> Self {
+        let float_arr = Float64Array::new_with_length(2);
+        float_arr.copy_from(&Vec::from(pos).into_boxed_slice());
+        Array::from(float_arr.as_ref())
+    }
+}
+
+impl wasm_bindgen::convert::IntoWasmAbi for Position {
+    type Abi = <Vec<f64> as wasm_bindgen::convert::IntoWasmAbi>::Abi;
+
+    #[inline]
+    fn into_abi(self) -> Self::Abi {
+        <Vec<f64>>::from(self).into_abi()
+    }
+}
+
+impl wasm_bindgen::convert::OptionIntoWasmAbi for Position {
+    #[inline]
+    fn none() -> wasm_bindgen::convert::WasmSlice { wasm_bindgen::convert::WasmSlice { ptr: 0, len: 0 } }
+}
+
+impl wasm_bindgen::convert::FromWasmAbi for Position {
+    type Abi = <Box<[f64]> as wasm_bindgen::convert::FromWasmAbi>::Abi;
+
+    #[inline]
+    unsafe fn from_abi(js: Self::Abi) -> Self {
+        let slice = <Box<[f64]>>::from_abi(js);
+        Position(slice[0], slice[1])
+    }
+}
+
+impl wasm_bindgen::convert::OptionFromWasmAbi for Position {
+    #[inline]
+    fn is_none(abi: &wasm_bindgen::convert::WasmSlice) -> bool { abi.ptr == 0 }
+}
+
+impl wasm_bindgen::describe::WasmDescribe for Position {
+    fn describe() {
+        <Box<[f64]>>::describe();
+    }
+}
 
 /// The possible values of a spirit or base's [`shape`](Destructible::shape) property.
 #[wasm_bindgen(typescript_type = "Shape")]
@@ -152,7 +238,7 @@ extern "C" {
     pub fn id(this: &Entity) -> EntityID;
 
     #[wasm_bindgen(method, getter)]
-    pub fn position(this: &Entity) -> Box<Position>;
+    pub fn position(this: &Entity) -> Position;
 
     #[wasm_bindgen(method, getter)]
     pub fn size(this: &Entity) -> u32;

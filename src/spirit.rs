@@ -239,13 +239,13 @@ extern "C" {
 
     /// Requires the `"squares"` crate feature
     #[cfg(feature = "squares")]
-    #[wasm_bindgen(method)]
-    pub fn jump(this: &OperableSpirit, target: &Position);
+    #[wasm_bindgen(method, js_name = "jump")]
+    fn _jump(this: &OperableSpirit, target: Array);
 
     /// Requires the `"triangles"` crate feature
     #[cfg(feature = "triangles")]
     #[wasm_bindgen(method)]
-    pub fn explode(this: &OperableSpirit, target: &Position);
+    pub fn explode(this: &OperableSpirit, target: Position);
 
     #[wasm_bindgen(method)]
     pub fn shout(this: &OperableSpirit, message: &str);
@@ -258,11 +258,14 @@ pub type LivingFriendlySpirit = OperableSpirit;
 pub type LivingFriendlySpiritID = OperableSpiritID;
 
 impl OperableSpirit {
-    /// JsSys:
-    pub fn move_to_pos(&self, pos: &Position) {
-        let float_arr = Float64Array::new_with_length(2);
-        float_arr.copy_from(pos);
-        self.r#move(&Array::from(float_arr.as_ref()));
+    /// `move` method
+    pub fn move_to_pos(&self, pos: Position) {
+        self.r#move(&pos.into());
+    }
+
+    #[cfg(feature = "squares")]
+    pub fn jump(&self, pos: Position) {
+        self._jump(pos.into());
     }
 }
 

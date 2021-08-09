@@ -23,13 +23,13 @@ extern "C" {
     fn set_linewidth(this: &Graphics, linewidth: f64);
 
     #[wasm_bindgen(method)]
-    fn line(this: &Graphics, pos: &Position, end: &Position);
+    fn line(this: &Graphics, pos: Position, end: Position);
 
     #[wasm_bindgen(method)]
-    fn circle(this: &Graphics, pos: &Position, r: f64);
+    fn circle(this: &Graphics, pos: Position, r: f64);
 
     #[wasm_bindgen(method)]
-    fn rect(this: &Graphics, tl: &Position, br: &Position);
+    fn rect(this: &Graphics, tl: Position, br: Position);
 
     #[wasm_bindgen]
     static graphics: Graphics;
@@ -56,16 +56,16 @@ pub fn set_linewidth(linewidth: f64) {
 }
 
 #[inline(always)]
-pub fn line(pos: &Position, end: &Position) {
+pub fn line(pos: Position, end: Position) {
     graphics.line(pos, end);
 }
 
 #[inline(always)]
-pub fn circle(pos: &Position, r: f64) {
+pub fn circle(pos: Position, r: f64) {
     graphics.circle(pos, r);
 }
 
 #[inline(always)]
-pub fn rect(tl: &Position, br: &Position) {
+pub fn rect(tl: Position, br: Position) {
     graphics.rect(tl, br);
 }
