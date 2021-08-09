@@ -1,11 +1,10 @@
-///!Provides access to properties of the `memory` object.
+///! Provides access to properties of the `memory` object.
 ///! Consider replacing with bindings that fit your own usage.
-
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen]
+    #[wasm_bindgen(typescript_type = "(typeof memory)")]
     type Memory;
 
     #[wasm_bindgen]
