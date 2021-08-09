@@ -1,0 +1,1 @@
+initSidebarItems({"static":[["base",""],["bases",""],["enemy_base",""]],"struct":[["Base","A player base."],["BaseID","The ID of a `Base`."],["Bases",""]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"static":[["players",""],["this_player_id",""]],"struct":[["PlayerID","A player ID, as reported by the `player_id` properties of spirits or bases, the `control` property of the outpost, [`this_player_id`], or the property vales of [`players`]."],["Players",""]]});

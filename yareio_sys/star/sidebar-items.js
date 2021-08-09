@@ -1,0 +1,1 @@
+initSidebarItems({"static":[["star_a1c",""],["star_p89",""],["star_zxq",""],["stars",""]],"struct":[["Star","A star."],["StarID","The ID of a [`Star`]."],["Stars",""]]});

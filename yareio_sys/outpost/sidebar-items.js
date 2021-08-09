@@ -1,0 +1,1 @@
+initSidebarItems({"static":[["outpost",""],["outpost_mdo",""],["outposts",""]],"struct":[["Outpost","An outpost."],["OutpostID","The ID of an [`Outpost`]."],["Outposts",""]]});
