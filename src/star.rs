@@ -1,7 +1,7 @@
 //! Provides access to stars.
 
-use crate::structure::{Structure, StructureID};
 use crate::{prelude::*, CanFrom};
+use crate::{Structure, StructureID};
 use js_sys::Object;
 use std::convert::TryFrom;
 use wasm_bindgen::prelude::*;
@@ -47,8 +47,11 @@ extern "C" {
     #[derive(Clone, Debug)]
     pub type Stars;
 
-    #[wasm_bindgen(js_name = "stars")]
-    static _stars: Stars;
+    /// `stars`. Use the [`GetByID`] trait to retrieve individual stars.
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_star)
+    #[wasm_bindgen]
+    pub static stars: Stars;
 }
 
 impl TryGetByID<EntityID, Star> for Stars {}
@@ -56,55 +59,32 @@ impl TryGetByID<StructureID, Star> for Stars {}
 impl EnumerateByID<StarID, Star> for Stars {}
 impl GetByID<StarID, Star> for Stars {}
 
-/// `stars`. Use the [`GetByID`] trait to retrieve individual stars.
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_star)
-#[inline(always)]
-pub fn stars() -> &'static Stars {
-    &_stars
-}
-
 // `star_zxq`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_name = "star_zxq")]
-    static _star_zxq: Star;
-}
-
-/// `star_zxq` ([player 1](crate::players::Players::p1)'s star).
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
-#[inline(always)]
-pub fn star_zxq() -> &'static Star {
-    &_star_zxq
+    /// `star_zxq` ([player 1](crate::players::Players::p1)'s star).
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
+    #[wasm_bindgen]
+    pub static star_zxq: Star;
 }
 
 // `star_a1c`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_name = "star_a1c")]
-    static _star_a1c: Star;
-}
-
-/// `star_a1c` ([player 2](crate::players::Players::p1)'s star).
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
-#[inline(always)]
-pub fn star_a1c() -> &'static Star {
-    &_star_a1c
+    /// `star_a1c` ([player 2](crate::players::Players::p1)'s star).
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
+    #[wasm_bindgen]
+    pub static star_a1c: Star;
 }
 
 // `star_p89`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_name = "star_p89")]
-    static _star_p89: Star;
-}
-
-/// `star_p89` (the outpost's star).
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
-#[inline(always)]
-pub fn star_p89() -> &'static Star {
-    &_star_p89
+    /// `star_p89` (the outpost's star).
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
+    #[wasm_bindgen]
+    pub static star_p89: Star;
 }

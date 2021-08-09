@@ -18,14 +18,9 @@ extern "C" {
 // `this_player_id`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_name = "this_player_id")]
-    static _this_player_id: PlayerID;
-}
-
-/// `this_player_id` (your player ID).
-#[inline(always)]
-pub fn this_player_id() -> &'static PlayerID {
-    &_this_player_id
+    /// `this_player_id` (your player ID).
+    #[wasm_bindgen]
+    pub static this_player_id: PlayerID;
 }
 
 // `players`
@@ -41,12 +36,7 @@ extern "C" {
     #[wasm_bindgen(method, getter)]
     pub fn p2(this: &Players) -> PlayerID;
 
-    #[wasm_bindgen(js_name = "players")]
-    static _players: Players;
-}
-
-/// `players`. [`p1`](Players::p1) is the top-left player, [`p2`](Players::p2) is the bottom-right player.
-#[inline(always)]
-pub fn players() -> &'static Players {
-    &_players
+    /// `players`. [`p1`](Players::p1) is the top-left player, [`p2`](Players::p2) is the bottom-right player.
+    #[wasm_bindgen]
+    pub static players: Players;
 }

@@ -1,8 +1,8 @@
 //! Provides access to outposts.
 
 use crate::players::PlayerID;
-use crate::structure::{Structure, StructureID};
 use crate::{prelude::*, CanFrom};
+use crate::{Structure, StructureID};
 use js_sys::Object;
 use std::convert::TryFrom;
 use wasm_bindgen::prelude::*;
@@ -51,8 +51,11 @@ extern "C" {
     #[derive(Clone, Debug)]
     pub type Outposts;
 
-    #[wasm_bindgen(js_name = "outposts")]
-    static _outposts: Outposts;
+    /// `outposts`. Use the [`GetByID`] trait to retrieve individual outposts.
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_outpost)
+    #[wasm_bindgen]
+    pub static outposts: Outposts;
 }
 
 impl TryGetByID<EntityID, Outpost> for Outposts {}
@@ -60,40 +63,22 @@ impl TryGetByID<StructureID, Outpost> for Outposts {}
 impl GetByID<OutpostID, Outpost> for Outposts {}
 impl EnumerateByID<OutpostID, Outpost> for Outposts {}
 
-/// `outposts`. Use the [`GetByID`] trait to retrieve individual outposts.
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_outpost)
-#[inline(always)]
-pub fn outposts() -> &'static Outposts {
-    &_outposts
-}
-
 // `outpost_mdo`
 #[wasm_bindgen(js_name = "outpost_mdo")]
 extern "C" {
+    /// `outpost_mdo`
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_outpost)
     #[wasm_bindgen]
-    static _outpost_mdo: Outpost;
-}
-
-/// `outpost_mdo`
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_outpost)
-#[inline(always)]
-pub fn outpost_mdo() -> &'static Outpost {
-    &_outpost_mdo
+    pub static outpost_mdo: Outpost;
 }
 
 // `outpost`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_name = "outpost")]
-    static _outpost: Outpost;
-}
-
-/// `outpost` (the outpost).
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
-#[inline(always)]
-pub fn outpost() -> &'static Outpost {
-    &_outpost
+    /// `outpost` (the outpost).
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
+    #[wasm_bindgen]
+    pub static outpost: Outpost;
 }

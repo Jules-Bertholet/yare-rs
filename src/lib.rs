@@ -44,12 +44,14 @@ mod macros {
     }
 }
 
+pub mod base;
 pub mod console;
 pub mod graphics;
 pub mod memory;
+pub mod outpost;
 pub mod players;
 pub mod spirit;
-pub mod structure;
+pub mod star;
 
 #[cfg(feature = "RenderService")]
 pub mod render_service;
@@ -58,19 +60,18 @@ use js_sys::{Array, JsString, Object, Reflect};
 use players::PlayerID;
 use spirit::{DeadSpirit, LivingEnemySpiritID, OperableSpiritID};
 use std::{convert::TryFrom, fmt::Debug, marker::PhantomData, ops::Deref};
-use structure::StructureID;
 use wasm_bindgen::{prelude::*, JsCast};
 /// The most useful items to import.
 pub mod prelude {
+    pub use crate::base::{base, bases, enemy_base, Base};
+    pub use crate::outpost::{outpost_mdo, outposts, Outpost};
     pub use crate::players::this_player_id;
     pub use crate::spirit::{
         my_spirits, spirits, DeadFriendlySpirit, DeadFriendlySpiritID, LivingEnemySpirit,
         LivingEnemySpiritID, LivingFriendlySpirit, LivingFriendlySpiritID, OperableSpirit,
         OperableSpiritID, Spirit, SpiritID,
     };
-    pub use crate::structure::base::{base, bases, enemy_base, Base};
-    pub use crate::structure::outpost::{outpost_mdo, outposts, Outpost};
-    pub use crate::structure::star::{star_a1c, star_p89, star_zxq, stars, Star};
+    pub use crate::star::{star_a1c, star_p89, star_zxq, stars, Star};
     pub use crate::{
         console, graphics, log, tick, Destructible, Entity, EntityID, EnumerateByID, GetByID,
         OutpostSight, Position, Shape, Sight, TryGetByID,
@@ -288,6 +289,59 @@ impl CanFrom<LivingEntity> for LivingDestructible {
 
 try_can_from!(impl TryFrom<LivingEntity>, Error = LivingEntity for LivingDestructible);
 
+/// The possible [`structure_type`](Structure::structure_type)s.
+///
+/// [Yare.io Documentation](https://yare.io/documentation)
+#[wasm_bindgen(typescript_type = "StructureType")]
+pub enum StructureType {
+    Base = "base",
+    Outpost = "outpost",
+    Star = "star",
+}
+
+// Structure
+#[wasm_bindgen]
+extern "C" {
+    /// The ID of a [`Structure`].
+    #[wasm_bindgen(extends = LivingEntityID, typescript_type = "StructureID")]
+    #[derive(Clone, Debug, PartialEq, Eq)]
+    pub type StructureID;
+
+    /// A structure, i.e. anything with a [`structure_type`](Structure::structure_type): can be a [`Base`], [`Outpost`], or [`Star`].
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation)
+    #[wasm_bindgen(extends = LivingEntity, typescript_type = "Structure")]
+    #[derive(Clone, Debug, PartialEq, Eq)]
+    pub type Structure;
+
+    #[wasm_bindgen(method, getter)]
+    pub fn id(this: &Structure) -> StructureID;
+
+    #[wasm_bindgen(method, getter)]
+    pub fn structure_type(this: &Structure) -> StructureType;
+
+    #[wasm_bindgen(method, getter)]
+    pub fn collision_radius(this: &Structure) -> f64;
+}
+
+impl CanFrom<Entity> for Structure {
+    #[inline]
+    fn can_from(value: &Entity) -> bool {
+        Reflect::has(value, &"structure_type".into()).unwrap()
+    }
+}
+
+try_can_from!(impl TryFrom<Entity>, Error = Entity for Structure);
+
+impl CanFrom<LivingEntity> for Structure {
+    #[inline]
+    fn can_from(value: &LivingEntity) -> bool {
+        <Structure as CanFrom<Entity>>::can_from(value)
+    }
+}
+
+try_can_from!(impl TryFrom<LivingEntity>, Error = Entity for Structure);
+
 // GetById
 
 /// This trait is implemented for the global objects that give mappings of [ID](EntityID)s to entities:
@@ -384,12 +438,8 @@ impl<T: JsCast> std::iter::ExactSizeIterator for ArrayTypedIter<T> {}
 // `tick`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_name = "tick")]
-    static _tick: u32;
-}
+    /// `tick` (the number of ticks since the start of the game).
 
-/// `tick` (the number of ticks since the start of the game).
-#[inline(always)]
-pub fn tick() -> &'static u32 {
-    &_tick
+    #[wasm_bindgen]
+    pub static tick: u32;
 }

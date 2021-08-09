@@ -69,7 +69,7 @@ extern "C" {
 impl CanFrom<Spirit> for FriendlySpirit {
     #[inline]
     fn can_from(value: &Spirit) -> bool {
-        &value.player_id() == this_player_id()
+        &value.player_id() == this_player_id.as_ref()
     }
 }
 
@@ -470,8 +470,11 @@ extern "C" {
     #[derive(Clone, Debug)]
     pub type Spirits;
 
-    #[wasm_bindgen(js_name = "spirits")]
-    static _spirits: Spirits;
+    /// `spirits`. Use the [`GetByID`] trait to retrieve individual spirits.
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
+    #[wasm_bindgen]
+    pub static spirits: Spirits;
 }
 
 impl TryGetByID<EntityID, Spirit> for Spirits {}
@@ -488,25 +491,12 @@ impl GetByID<DeadFriendlySpiritID, DeadFriendlySpirit> for Spirits {}
 impl GetByID<LivingEnemySpiritID, LivingEnemySpirit> for Spirits {}
 impl GetByID<DeadEnemySpiritID, DeadEnemySpirit> for Spirits {}
 
-/// `spirits`. Use the [`GetByID`] trait to retrieve individual spirits.
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
-#[inline(always)]
-pub fn spirits() -> &'static Spirits {
-    &_spirits
-}
-
 // `my_spirits`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(method, getter, js_name = "my_spirits")]
-    static _my_spirits: Vec<FriendlySpirit>;
-}
-
-/// `my_spirits`, as a [`Vec`].
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
-#[inline(always)]
-pub fn my_spirits() -> &'static Vec<FriendlySpirit> {
-    &_my_spirits
+    /// `my_spirits`, as a [`Vec`].
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_spirit)
+    #[wasm_bindgen(method, getter)]
+    pub static my_spirits: Vec<FriendlySpirit>;
 }

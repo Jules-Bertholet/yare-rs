@@ -1,10 +1,10 @@
 //! Provides access to player bases.
 
 use crate::spirit::LivingSpirit;
-use crate::structure::{Structure, StructureID};
 use crate::{
     prelude::*, CanFrom, Destructible, DestructibleID, LivingDestructible, LivingDestructibleID,
 };
+use crate::{Structure, StructureID};
 use js_sys::{Object, Reflect};
 use std::convert::TryFrom;
 use wasm_bindgen::prelude::*;
@@ -65,8 +65,11 @@ extern "C" {
     #[derive(Clone, Debug)]
     pub type Bases;
 
-    #[wasm_bindgen(js_name = "bases")]
-    static _bases: Bases;
+    /// `bases`. Use the [`GetByID`] trait to retrieve individual bases.
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_base)
+    #[wasm_bindgen]
+    pub static bases: Bases;
 }
 
 impl TryGetByID<EntityID, Base> for Bases {}
@@ -76,40 +79,22 @@ impl TryGetByID<StructureID, Base> for Bases {}
 impl GetByID<BaseID, Base> for Bases {}
 impl EnumerateByID<BaseID, Base> for Bases {}
 
-/// `bases`. Use the [`GetByID`] trait to retrieve individual bases.
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_base)
-#[inline(always)]
-pub fn bases() -> &'static Bases {
-    &_bases
-}
-
 // `base`
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_name = "base")]
-    static _base: Base;
-}
-
-/// `base` (your base).
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
-#[inline(always)]
-pub fn base() -> &'static Base {
-    &_base
+    /// `base` (your base).
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
+    #[wasm_bindgen]
+    pub static base: Base;
 }
 
 // `enemy_base`
 #[wasm_bindgen]
 extern "C" {
+    /// `enemy_base` (the enemy base).
+    ///
+    /// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
     #[wasm_bindgen(js_name = "enemy_base")]
-    static _enemy_base: Base;
-}
-
-/// `enemy_base` (the enemy base).
-///
-/// [Yare.io Documentation](https://yare.io/documentation#doc_intro)
-#[inline(always)]
-pub fn enemy_base() -> &'static Base {
-    &_enemy_base
+    pub static enemy_base: Base;
 }
