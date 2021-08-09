@@ -1,6 +1,6 @@
 [package]
 name = "yareio-sys"
-version = "0.9.3"
+version = "0.9.4"
 authors = ["Jules Bertholet <jules.bertholet@gmail.com>"]
 edition = "2018"
 description = "Rust bindings for Yare.io"

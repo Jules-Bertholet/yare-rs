@@ -294,6 +294,13 @@ impl CanFrom<Spirit> for LivingFriendlySpirit {
 
 try_can_from!(impl TryFrom<Spirit>, Error = Spirit for LivingFriendlySpirit);
 
+impl AsRef<Spirit> for LivingFriendlySpirit {
+    #[inline]
+    fn as_ref(&self) -> &Spirit {
+        <LivingFriendlySpirit as AsRef<FriendlySpirit>>::as_ref(self).as_ref()
+    }
+}
+
 // DeadFriendlySpirit
 #[wasm_bindgen]
 extern "C" {
@@ -340,6 +347,13 @@ impl CanFrom<Spirit> for DeadFriendlySpirit {
 }
 
 try_can_from!(impl TryFrom<Spirit>, Error = Spirit for DeadFriendlySpirit);
+
+impl AsRef<Spirit> for DeadFriendlySpirit {
+    #[inline]
+    fn as_ref(&self) -> &Spirit {
+        <DeadFriendlySpirit as AsRef<FriendlySpirit>>::as_ref(self).as_ref()
+    }
+}
 
 // LivingEnemySpirit
 #[wasm_bindgen]
@@ -388,6 +402,13 @@ impl CanFrom<Spirit> for LivingEnemySpirit {
 
 try_can_from!(impl TryFrom<Spirit>, Error = Spirit for LivingEnemySpirit);
 
+impl AsRef<Spirit> for LivingEnemySpirit {
+    #[inline]
+    fn as_ref(&self) -> &Spirit {
+        <LivingEnemySpirit as AsRef<EnemySpirit>>::as_ref(self).as_ref()
+    }
+}
+
 // DeadEnemySpirit
 #[wasm_bindgen]
 extern "C" {
@@ -434,6 +455,13 @@ impl CanFrom<Spirit> for DeadEnemySpirit {
 }
 
 try_can_from!(impl TryFrom<Spirit>, Error = Spirit for DeadEnemySpirit);
+
+impl AsRef<Spirit> for DeadEnemySpirit {
+    #[inline]
+    fn as_ref(&self) -> &Spirit {
+        <DeadEnemySpirit as AsRef<EnemySpirit>>::as_ref(self).as_ref()
+    }
+}
 
 // `spirits`
 #[wasm_bindgen]
