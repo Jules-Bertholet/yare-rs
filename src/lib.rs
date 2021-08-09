@@ -393,18 +393,3 @@ extern "C" {
 pub fn tick() -> &'static u32 {
     &_tick
 }
-
-// `CODE_VERSION`
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_name = "CODE_VERSION")]
-    static _CODE_VERSION: String;
-}
-
-/// `CODE_VERSION`
-#[allow(bad_style)]
-#[allow(clippy::all)]
-#[inline(always)]
-pub fn CODE_VERSION() -> &'static String {
-    return &_CODE_VERSION;
-}
